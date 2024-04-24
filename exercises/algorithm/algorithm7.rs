@@ -3,12 +3,12 @@
 	This question requires you to use a stack to achieve a bracket match
 */
 
-// I AM NOT DONE
 #[derive(Debug)]
 struct Stack<T> {
 	size: usize,
 	data: Vec<T>,
 }
+
 impl<T> Stack<T> {
 	fn new() -> Self {
 		Self {
@@ -16,36 +16,48 @@ impl<T> Stack<T> {
 			data: Vec::new(),
 		}
 	}
+
 	fn is_empty(&self) -> bool {
 		0 == self.size
 	}
+
 	fn len(&self) -> usize {
 		self.size
 	}
+
 	fn clear(&mut self) {
 		self.size = 0;
 		self.data.clear();
 	}
+
 	fn push(&mut self, val: T) {
 		self.data.push(val);
 		self.size += 1;
 	}
+
 	fn pop(&mut self) -> Option<T> {
 		// TODO
-		None
+		let res = self.data.pop();
+		if res.is_some() {
+			self.size -= 1;
+		}
+		res
 	}
+
 	fn peek(&self) -> Option<&T> {
 		if 0 == self.size {
 			return None;
 		}
 		self.data.get(self.size - 1)
 	}
+
 	fn peek_mut(&mut self) -> Option<&mut T> {
 		if 0 == self.size {
 			return None;
 		}
 		self.data.get_mut(self.size - 1)
 	}
+
 	fn into_iter(self) -> IntoIter<T> {
 		IntoIter(self)
 	}
@@ -102,7 +114,30 @@ impl<'a, T> Iterator for IterMut<'a, T> {
 fn bracket_match(bracket: &str) -> bool
 {
 	//TODO
-	true
+	let mut st = Stack::new();
+
+	for ch in bracket.chars() {
+		match ch {
+			'(' | '{' | '[' => st.push(ch),
+			')' => {
+				if st.pop() != Some('(') {
+					return false;
+				}
+			},
+			'}' => {
+				if st.pop() != Some('{') {
+					return false;
+				}
+			},
+			']' => {
+				if st.pop() != Some('[') {
+					return false;
+				}
+			},
+			_ => (),
+		}
+	}
+	st.is_empty()
 }
 
 #[cfg(test)]
