@@ -2,7 +2,6 @@
 	heap
 	This question requires you to implement a binary heap function
 */
-
 use std::cmp::Ord;
 use std::default::Default;
 
@@ -127,8 +126,6 @@ where
         } else {
             None
         }
-
-
     }
 }
 
@@ -177,6 +174,8 @@ mod tests {
         assert_eq!(heap.next(), Some(4));
         assert_eq!(heap.next(), Some(9));
         heap.add(1);
+        heap.add(1);
+        assert_eq!(heap.next(), Some(1));
         assert_eq!(heap.next(), Some(1));
     }
 
@@ -192,6 +191,10 @@ mod tests {
         assert_eq!(heap.next(), Some(9));
         assert_eq!(heap.next(), Some(4));
         heap.add(1);
+        heap.add(1);
+        heap.add(2);
         assert_eq!(heap.next(), Some(2));
+        heap.add(3);
+        assert_eq!(heap.next(), Some(3));
     }
 }

@@ -63,7 +63,7 @@ impl<T> myStack<T> {
         Self {
 			//TODO
 			q1:Queue::<T>::new(),
-			q2:Queue::<T>::new()
+			q2:Queue::<T>::new(),
         }
     }
     pub fn push(&mut self, elem: T) {
@@ -83,11 +83,23 @@ impl<T> myStack<T> {
             self.q2.enqueue(elem);
         }
 
-        let res = self.q1.dequeue().unwrap();
+        // let res = self.q1.dequeue().unwrap();
+
+        // std::mem::swap(&mut self.q1, &mut self.q2);
+
+        // Ok(res)
+
+        let res = self.q1.dequeue();
+        let mut v;
+        match res {
+            Ok(_) => {v = res.unwrap()},
+            Err(_) => return Err("Stack is empty"),
+        }
 
         std::mem::swap(&mut self.q1, &mut self.q2);
 
-        Ok(res)
+        // println!("{}", v);
+        Ok(v)
     }
 
     pub fn is_empty(&self) -> bool {
